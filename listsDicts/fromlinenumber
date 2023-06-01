@@ -1,0 +1,18 @@
+user_file = input('Enter file name: ')
+if len(user_file) < 1:
+    user_file = 'mbox-short.txt'
+handler = open(user_file)
+email_dic = dict()
+for line in handler:
+    line = line.rstrip()
+    if not line.startswith('From '):
+        continue
+    words = line.split()
+    email_dic[words[1]] = email_dic.get(words[1],0) + 1
+largest = -1
+email = None
+for key,value in email_dic.items() :
+        if value > largest :
+            largest = value
+            email = key
+print(email,largest)
