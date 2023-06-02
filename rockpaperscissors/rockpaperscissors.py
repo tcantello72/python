@@ -2,7 +2,6 @@
 # Created on 6/1/23
 # Last updated on 6/2/23
 
-
 # ----Import Section----
 import random
 
@@ -29,8 +28,13 @@ def computerSelection():
 
 # Function for computer to select which option to play
 def playerSelection():
-    playerInput = int(input('Please select: 1 for Rock, 2 for Paper, 3 for Scissors, 4 for Lizard or 5 for Spock: '))
-    print("")
+    try:
+        playerInput = int(input('Please select: 1 for Rock, 2 for Paper, 3 for Scissors, 4 for Lizard or 5 for Spock: '))
+        print("")
+    except ValueError:
+        print('Please enter an integer between 1 and 5.')
+        playerHand = playerSelection()
+        return playerHand
 
     if playerInput == 1:
         playerHand = 'Rock'
@@ -53,8 +57,8 @@ def playerSelection():
         return playerHand
 
 # Function for hand to be played
-def playHand(player, computer):
-    print('Player -', player)
+def playHand(player, computer, name):
+    print(name,'-', player)
     print('Computer -', computer)
 
     winner = ''
@@ -69,11 +73,11 @@ def playHand(player, computer):
         winner = 'computer'
         return winner
     elif ((player == 'Rock') and (computer == 'Scissors')):
-        print('Player Wins as Rock breaks Scissors!')
+        print(name,'Wins as Rock breaks Scissors!')
         winner = 'player'
         return winner
     elif ((player == 'Rock') and (computer == 'Lizard')):
-        print('Player Wins as Rock crushes Lizard!')
+        print(name, 'Wins as Rock crushes Lizard!')
         winner = 'player'
         return winner
     elif ((player == 'Rock') and (computer == 'Spock')):
@@ -87,7 +91,7 @@ def playHand(player, computer):
         winner = 'tie'
         return winner
     elif ((player == 'Paper') and (computer == 'Rock')):
-        print('Player Wins as Paper covers Rock!')
+        print(name, 'Wins as Paper covers Rock!')
         winner = 'player'
         return winner
     elif ((player == 'Paper') and (computer == 'Scissors')):
@@ -99,7 +103,7 @@ def playHand(player, computer):
         winner = 'computer'
         return winner
     elif ((player == 'Paper') and (computer == 'Spock')):
-        print('Player Wins as Paper disproves Spock!')
+        print(name, 'Wins as Paper disproves Spock!')
         winner = 'player'
         return winner
   
@@ -109,7 +113,7 @@ def playHand(player, computer):
         winner = 'tie'
         return winner
     elif ((player == 'Scissors') and (computer == 'Paper')):
-        print('Player Wins as Scissors cuts Paper!')
+        print(name, 'Wins as Scissors cuts Paper!')
         winner = 'player'
         return winner
     elif ((player == 'Scissors') and (computer == 'Rock')):
@@ -117,7 +121,7 @@ def playHand(player, computer):
         winner = 'computer'
         return winner
     elif ((player == 'Scissors') and (computer == 'Lizard')):
-        print('Player Wins as Scissors decapitate Lizard!')
+        print(name, 'Wins as Scissors decapitate Lizard!')
         winner = 'player'
         return winner
     elif ((player == 'Scissors') and (computer == 'Spock')):
@@ -131,7 +135,7 @@ def playHand(player, computer):
         winner = 'tie'
         return winner
     elif ((player == 'Lizard') and (computer == 'Paper')):
-        print('Player Wins as Lizard eats Paper!')
+        print(name, 'Wins as Lizard eats Paper!')
         winner = 'player'
         return winner
     elif ((player == 'Lizard') and (computer == 'Rock')):
@@ -143,7 +147,7 @@ def playHand(player, computer):
         winner = 'computer'
         return winner
     elif ((player == 'Lizard') and (computer == 'Spock')):
-        print('Player Wins as Lizard poisons Spock!')
+        print(name, 'Wins as Lizard poisons Spock!')
         winner = 'player'
         return winner
     
@@ -157,11 +161,11 @@ def playHand(player, computer):
         winner = 'computer'
         return winner
     elif ((player == 'Spock') and (computer == 'Rock')):
-        print('Player Wins as Spock vaporizes Rock!')
+        print(name, 'Wins as Spock vaporizes Rock!')
         winner = 'player'
         return winner
     elif ((player == 'Spock') and (computer == 'Scissors')):
-        print('Player Wins as Spock melts Scissors!')
+        print(name, 'Wins as Spock melts Scissors!')
         winner = 'player'
         return winner
     elif ((player == 'Spock') and (computer == 'Lizard')):
@@ -178,9 +182,13 @@ ties = 0
 playAgain = 'y'
 
 # The Game
+playerName = input("what is your Name? ")
+print('Welcome', playerName)
+print('')
+
 while playAgain == 'y':
 
-    winner = playHand(playerSelection(), computerSelection())
+    winner = playHand(playerSelection(), computerSelection(), playerName)
 
     if winner == 'tie':
         playerScore == playerScore
@@ -196,7 +204,7 @@ while playAgain == 'y':
         ties==ties
 
     print("")
-    print('Player Score   -', playerScore, 'winning % -',(f"{((playerScore / (playerScore + computerScore + ties)) * 100):.2f}%"))
+    print(playerName,"Score   -", playerScore, 'winning % -',(f"{((playerScore / (playerScore + computerScore + ties)) * 100):.2f}%"))
     print('Computer Score -', computerScore, 'winning % -',  (f"{((computerScore / (playerScore + computerScore + ties)) * 100):.2f}%"))
     print('Ties           -', ties, 'tie %     -',   (f"{((ties / (playerScore + computerScore + ties)) * 100):.2f}%"))
     print("")
@@ -206,7 +214,7 @@ while playAgain == 'y':
         print('Thanks for Playing')
         print('')
         if playerScore > computerScore:
-            print('PLAYER WINS!', playerScore, "to", computerScore)
+            print(playerName, 'WINS!', playerScore, "to", computerScore)
             print('')
         elif computerScore > playerScore:
             print('COMPUTER WINS!', computerScore, "to", playerScore)
@@ -214,3 +222,6 @@ while playAgain == 'y':
         else:
             print('Game ends in a Tie!', playerScore, "to", computerScore)
         quit()
+    elif playAgain != 'y' and playAgain != 'n':
+        print("Please enter 'y' or 'n'")
+        playAgain = input('Would you like to play again? (y or n) ')
