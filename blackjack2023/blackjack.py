@@ -1,7 +1,7 @@
 # Program: Blackjack Game
 # Programmer: Toby Cantello
 # Created on June 7, 2023
-# Last updated on June 8, 2021
+# Last updated on June 9, 2021
 # These are improvements made to a basic one person blackjack game I created on May 16, 2021
 
 # ---- Import Section ----
@@ -9,11 +9,10 @@ import random
 import os
 
 # ---- Functions Section ----
-
 # Function for clearing the console screen at the start of the game
 clear = lambda: os.system('cls')
 
-# Function that will return the value of the first two cards dealt to each player and dealer
+# Function that will return the value of the first two cards dealt to each player
 def FirstTwoCards(player):
     count = 0
     handValue = 0
@@ -26,6 +25,20 @@ def FirstTwoCards(player):
             handValue = handValue + card_value_print
             count = count + 1
     print (player, "your score is ", handValue)
+    return handValue
+
+# Function that will return the value of the first two cards dealt to the Dealer. Players only know the value of the second card.
+def DealerFirstTwoCards():
+    count = 0
+    handValue = 0
+     
+    while count <= 1:
+            rnumber = random.randint(0, 51)
+            card_name_print = card_name[rnumber]
+            card_value_print = card_value[rnumber]
+            handValue = handValue + card_value_print
+            count = count + 1
+    print ("The dealer is showing a ", card_name_print," for ", card_value_print, "points")
     return handValue
 
 # Function that lets each player choose to Hit or Stand. Player at a time and one card at a time
@@ -156,9 +169,10 @@ bankPlayer2 = 2500
 clear()
 print ("Welcome to Toby's Blackjack Game")
 print ()
-print ("Goal is to get as close to 21 as you can without going over")
+print ("This game is two player ys a Dealer ")
+print ("Goal is to get as close to 21 as you can without going over and scoring higher than the Dealer.")
 print ("ACEs count as 11 points and the  Dealer Stands with 18, 19, 20 amd 21 points")
-print ("Each Player will start with $2500 in the bank")
+print ("Each Player starts with $2500 in the bank")
 print ()
 player1 = input('Player 1 please enter your name: ')
 player2 = input('Player 2 please enter your name: ')
@@ -180,7 +194,7 @@ while True:
     if betPlayer2 <= bankPlayer2:
         handValuePlayer2 = FirstTwoCards(player2)
         print()
-    handValueDealer = FirstTwoCards('Dealer')
+    handValueDealer = DealerFirstTwoCards()
 
     # Hit or Stand
     handValuePlayer1 = HitOrStand(handValuePlayer1, player1)
@@ -192,38 +206,11 @@ while True:
     bankPlayer2 = WhoWon(player2, bankPlayer2, betPlayer2, handValuePlayer2, handValueDealer)
     print()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""
-
-bankPlayer = bankPlayer + betPlayer
-
- print (player, "Your new bank value is $", bankPlayer,".")
-
- print (player, "your new bank value is $",bankPlayer)
-
-        # hit or stand choice
-       
+    # Play again?
+    play_again = input("Would you like to play again? y or n \n")
+    count = 0
+    while play_again.lower() not in ("y","n"):
         play_again = input("Would you like to play again? y or n \n")
-        count = 0
-        while play_again.lower() not in ("y","n"):
-            play_again = input("Would you like to play again? y or n \n")
-        if play_again == "n":
-            break
-print ("Thanks for Playing")
-"""
+    if play_again == "n":
+        print ("Thanks for Playing")
+        quit()
